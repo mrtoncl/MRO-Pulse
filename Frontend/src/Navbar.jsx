@@ -1,8 +1,6 @@
-import { TkBadge } from '@takeoff-ui/react';
-
-function Navbar({ activeTab, onTabChange, criticalCount }) {
+function Navbar({ activeTab, onTabChange }) {
   const now = new Date();
-  const dateLabel = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const dateLabel = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
   const timeLabel = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
   const tabStyle = (tab) => ({
@@ -26,10 +24,12 @@ function Navbar({ activeTab, onTabChange, criticalCount }) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <TkBadge label={`${criticalCount} CRITICAL`} variant="danger" />
         <span style={{ color: '#b39a9c', fontSize: '13px' }}>{dateLabel} · {timeLabel}</span>
-        <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#7a2a2e', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>
-          MO
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#7a2a2e', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', flexShrink: 0 }}>
+            MÖ
+          </div>
+          <span style={{ color: '#fff', fontSize: '13px' }}>M.E.Öncül</span>
         </div>
       </div>
     </nav>

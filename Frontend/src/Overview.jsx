@@ -1,6 +1,16 @@
 import { TkCard, TkBadge, TkButton, TkChart } from '@takeoff-ui/react';
 import { statusVariant } from './statusUtils';
 
+function KpiCard({ label, value, subtitle, color }) {
+  return (
+    <div style={{ flex: 1, background: '#fff', borderRadius: '8px', borderTop: `4px solid ${color}`, padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#888', textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: '32px', fontWeight: 700, color, margin: '6px 0 4px' }}>{value}</div>
+      <div style={{ fontSize: '12px', color: '#999' }}>{subtitle}</div>
+    </div>
+  );
+}
+
 function Overview({ allParts, predictionsReady }) {
   const summary = {
     total: allParts.length,
@@ -32,10 +42,10 @@ function Overview({ allParts, predictionsReady }) {
       </p>
 
       <div style={{ display: 'flex', gap: '16px' }}>
-        <TkCard header="Total Parts Tracked"><p style={{ fontSize: '32px', fontWeight: 'bold' }}>{summary.total}</p></TkCard>
-        <TkCard header="Healthy Stock"><p style={{ fontSize: '32px', fontWeight: 'bold', color: '#1a7f4e' }}>{summary.healthy}</p></TkCard>
-        <TkCard header="Low Stock"><p style={{ fontSize: '32px', fontWeight: 'bold', color: '#c8860a' }}>{summary.low}</p></TkCard>
-        <TkCard header="Critical"><p style={{ fontSize: '32px', fontWeight: 'bold', color: '#c8102e' }}>{summary.critical}</p></TkCard>
+        <KpiCard label="Total Parts Tracked" value={summary.total} subtitle={`${categories.length} categories`} color="#241012" />
+        <KpiCard label="Healthy Stock" value={summary.healthy} subtitle="No action required" color="#1a7f4e" />
+        <KpiCard label="Low Stock" value={summary.low} subtitle="Order soon" color="#c8860a" />
+        <KpiCard label="Critical" value={summary.critical} subtitle="Immediate action" color="#c8102e" />
       </div>
 
       <div style={{ display: 'flex', gap: '16px', marginTop: '16px', alignItems: 'flex-start' }}>
@@ -65,8 +75,8 @@ function Overview({ allParts, predictionsReady }) {
           <TkCard header="Status Distribution">
             <TkChart type="bar" height={200} data={{
               labels: ['Healthy', 'Low', 'Critical'],
-              datasets: [{ label: 'Parts', data: [summary.healthy, summary.low, summary.critical], backgroundColor: ['#1a7f4e', '#c8860a', '#c8102e'] }],
-            }} />
+              datasets: [{ label: 'Parts', data: [summary.healthy, summary.low, summary.critical], backgroundColor: ['#1a7f4e', '#c8860a', '#c8102e'], minBarLength: 6 }],
+            }} options={{ plugins: { legend: { display: false } } }} />
           </TkCard>
 
           <TkCard header="Stock by Category">

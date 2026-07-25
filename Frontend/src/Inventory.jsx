@@ -32,33 +32,31 @@ function InfoRow({ label, value, valueColor }) {
     );
 }
 
-function PredictionRangeBar({ earliest, median, latest, leadTime, color }) {
-    const max = Math.max(latest, leadTime || 0) * 1.1 || 1;
-    const pct = (val) => `${(val / max) * 100}%`;
+// The colored bar always spans the full track (same visual length on every part) — it represents the
+// optimistic-to-pessimistic spread in relative terms, not an absolute day scale. The black tick marks
+// where the median estimate falls within that spread. Lead time isn't drawn on this bar (it's already
+// shown in its own stat card and in the banner text above) — mixing an absolute lead-time day position
+// into a relative 0-100% bar was confusing rather than informative.
+function PredictionRangeBar({ earliest, median, latest, color }) {
+    const range = latest - earliest || 1;
+    // True relative position of the median within the optimistic-pessimistic spread (not assumed to be 50%).
+    const medianPct = Math.min(100, Math.max(0, ((median - earliest) / range) * 100));
+    // Same position, just inset a bit so the number itself doesn't get clipped at the very edge of the bar.
+    const labelPct = Math.min(94, Math.max(6, medianPct));
 
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#888' }}>
-                <span>OPTIMISTIC</span><span>MEDIAN</span><span>PESSIMISTIC</span>
+                <span>PESSIMISTIC</span><span>OPTIMISTIC</span>
             </div>
-            <div style={{ position: 'relative', height: '10px', background: '#eee', borderRadius: '5px', margin: '10px 0' }}>
-                <div style={{ position: 'absolute', left: pct(earliest), width: `calc(${pct(latest)} - ${pct(earliest)})`, height: '100%', background: color, borderRadius: '5px' }} />
-                <div style={{ position: 'absolute', left: pct(median), width: '2px', height: '18px', top: '-4px', background: '#222' }} />
-                {leadTime != null && (
-                    <div style={{ position: 'absolute', left: pct(leadTime), top: '-4px', height: '18px', borderLeft: '2px dashed #666' }} />
-                )}
+            <div style={{ position: 'relative', height: '10px', background: color, borderRadius: '5px', margin: '10px 0' }}>
+                <div style={{ position: 'absolute', left: `${medianPct}%`, width: '2px', height: '18px', top: '-4px', background: '#222' }} />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '10px' }}>
-                <span>{Math.round(earliest)}d</span>
-                <span style={{ fontWeight: 'bold' }}>{Math.round(median)}d</span>
-                <span>{Math.round(latest)}d</span>
+            <div style={{ position: 'relative', height: '16px', fontSize: '12px' }}>
+                <span style={{ position: 'absolute', left: 0 }}>{Math.round(earliest)}d</span>
+                <span style={{ position: 'absolute', left: `${labelPct}%`, transform: 'translateX(-50%)', fontWeight: 'bold' }}>{Math.round(median)}d</span>
+                <span style={{ position: 'absolute', right: 0 }}>{Math.round(latest)}d</span>
             </div>
-            {leadTime != null && (
-                <div style={{ display: 'flex', gap: '16px', fontSize: '11px', color: '#888' }}>
-                    <span><span style={{ display: 'inline-block', width: '12px', borderTop: '2px dashed #666', marginRight: '4px', verticalAlign: 'middle' }} />Supplier lead time ({Math.round(leadTime)}d)</span>
-                    <span><span style={{ display: 'inline-block', width: '10px', height: '10px', background: color, borderRadius: '2px', marginRight: '4px', verticalAlign: 'middle' }} />Stockout range</span>
-                </div>
-            )}
         </div>
     );
 }
@@ -124,7 +122,9 @@ function Inventory({ allParts, predictionsReady }) {
     const hasPrediction = Boolean(selectedPart?.stockPrediction && selectedPart?.leadTimePrediction);
 
     const categories = [...new Set(allParts.map((p) => p.category))];
-    const criticalities = [...new Set(allParts.map((p) => p.criticality))];
+    // Fixed importance order (not alphabetical — alphabetically "Low" sorts before "Medium").
+    const criticalityRank = { High: 1, Medium: 2, Low: 3 };
+    const criticalities = ['High', 'Medium', 'Low'].filter((c) => allParts.some((p) => p.criticality === c));
 
     const filteredParts = allParts.filter((part) => {
         const matchesSearch = part.productName.toLowerCase().includes(searchText.toLowerCase()) || part.productId.toLowerCase().includes(searchText.toLowerCase());
@@ -134,13 +134,19 @@ function Inventory({ allParts, predictionsReady }) {
         return matchesSearch && matchesCategory && matchesCriticality && matchesStatus;
     });
 
+    const sortString = (field) => (a, b) => String(a[field]).localeCompare(String(b[field]));
+    const sortNumber = (field) => (a, b) => (a[field] ?? 0) - (b[field] ?? 0);
+    // Sort by real urgency (the same gap used for status/color everywhere else), not alphabetically —
+    // alphabetical would put Critical/Healthy/Low Stock in a meaningless order.
+    const sortStatus = (a, b) => (a.gap ?? a.daysRemaining ?? 0) - (b.gap ?? b.daysRemaining ?? 0);
+
     const columns = [
-        { field: 'productId', header: 'Part ID' },
-        { field: 'productName', header: 'Name' },
-        { field: 'category', header: 'Category' },
-        { field: 'criticality', header: 'Criticality' },
-        { field: 'stockQuantity', header: 'Stock' },
-        { field: 'status', header: 'Status', html: (row) => `<tk-badge label="${row.status}" variant="${statusVariant(row.status)}"></tk-badge>` },
+        { field: 'productId', header: 'Part ID', sortable: true, sorter: sortString('productId') },
+        { field: 'productName', header: 'Name', sortable: true, sorter: sortString('productName') },
+        { field: 'category', header: 'Category', sortable: true, sorter: sortString('category') },
+        { field: 'criticality', header: 'Criticality', sortable: true, sorter: (a, b) => (criticalityRank[a.criticality] ?? 99) - (criticalityRank[b.criticality] ?? 99) },
+        { field: 'stockQuantity', header: 'Stock', sortable: true, sorter: sortNumber('stockQuantity') },
+        { field: 'status', header: 'Status', sortable: true, sorter: sortStatus, html: (row) => `<tk-badge label="${row.status}" variant="${statusVariant(row.status)}"></tk-badge>` },
     ];
 
     return (
@@ -157,23 +163,23 @@ function Inventory({ allParts, predictionsReady }) {
 
             <TkTable columns={columns} data={filteredParts} onTkRowClick={(e) => setSelectedId(e.detail.productId)} />
 
-            <TkDrawer headerType="dark" open={selectedPart !== null} onTkDrawerClose={() => setSelectedId(null)}>
-                <div slot="header">
-                    {selectedPart && (
-                        <div style={{ padding: '2px 4px 6px' }}>
-                            <div style={{ fontSize: '11px', letterSpacing: '0.5px', color: 'rgba(255,255,255,0.75)' }}>{selectedPart.productId}</div>
-                            <div style={{ fontSize: '20px', fontWeight: 700, margin: '4px 0 10px', color: '#fff' }}>{selectedPart.productName}</div>
-                            <div style={{ display: 'flex', gap: '8px' }}>
-                                <TkBadge label={selectedPart.status} variant={statusVariant(selectedPart.status)} type="filled" dot />
-                                <TkBadge label={selectedPart.criticality} type="filled" variant="neutral" />
-                                <TkBadge label={selectedPart.category} type="filled" variant="neutral" />
-                            </div>
-                        </div>
-                    )}
-                </div>
+            <TkDrawer headerType="light" open={selectedPart !== null} onTkDrawerClose={() => setSelectedId(null)}>
                 <div slot="content">
                     {selectedPart && (
                         <div>
+                            {/* Styled directly (not via TkDrawer's built-in dark header) so we control the exact
+                                THY-maroon background — the drawer's own "dark" header type is a fixed shadow-DOM
+                                color we can't reliably override. */}
+                            <div style={{ background: '#3a1013', color: '#fff', borderRadius: '10px', padding: '16px', margin: '-4px 0 16px' }}>
+                                <div style={{ fontSize: '11px', letterSpacing: '0.5px', color: 'rgba(255,255,255,0.75)' }}>{selectedPart.productId}</div>
+                                <div style={{ fontSize: '20px', fontWeight: 700, margin: '4px 0 10px', color: '#fff' }}>{selectedPart.productName}</div>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <TkBadge label={selectedPart.status} variant={statusVariant(selectedPart.status)} type="filled" dot />
+                                    <TkBadge label={selectedPart.criticality} type="filled" variant="neutral" />
+                                    <TkBadge label={selectedPart.category} type="filled" variant="neutral" />
+                                </div>
+                            </div>
+
                             {hasPrediction ? (
                                 <TkAlert variant={statusVariant(selectedPart.status)} type="filled" header={actionLabel[selectedPart.action]}
                                     message={`Runs out in ~${Math.round(selectedPart.stockPrediction.median_day)} days. Resupply ~${Math.round(selectedPart.leadTimePrediction.lead_time)} days.`} />
@@ -195,7 +201,6 @@ function Inventory({ allParts, predictionsReady }) {
                                         earliest={selectedPart.stockPrediction.earliest_day}
                                         median={selectedPart.stockPrediction.median_day}
                                         latest={selectedPart.stockPrediction.latest_day}
-                                        leadTime={selectedPart.leadTimePrediction.lead_time}
                                         color={variantColor[selectedPart.status]}
                                     />
                                 ) : <p>Loading...</p>}
