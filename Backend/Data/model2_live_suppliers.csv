@@ -1,0 +1,64 @@
+product_id,product_name,category,criticality,supplier_name,supplier_country,shipping_method,supplier_reliability_score,promised_delivery_days
+THY-0001,O-Ring Seal Kit,Consumables,Low,Kale Aero,Turkey,Air,0.83,2
+THY-0002,Hydraulic Fluid (Skydrol LD-4),Consumables,Low,Alp Aviation,Turkey,Air,0.86,3
+THY-0003,Turbine Engine Oil,Consumables,High,Dubai Aerospace Parts,UAE,Sea,0.78,14
+THY-0004,Grease Cartridge,Consumables,Low,Alp Aviation,Turkey,Road,0.86,3
+THY-0005,Safety Wire Spool,Consumables,Medium,Dubai Aerospace Parts,UAE,Sea,0.78,12
+THY-0006,Rivet Pack (100pc),Consumables,Medium,Dubai Aerospace Parts,UAE,Air,0.78,3
+THY-0007,Cabin Air Filter,Consumables,Low,Dubai Aerospace Parts,UAE,Air,0.78,4
+THY-0008,Fuel Filter Element,Consumables,Medium,Boeing Distribution Services,USA,Air,0.9,10
+THY-0009,Oil Filter Element,Consumables,Low,Alp Aviation,Turkey,Road,0.86,2
+THY-0010,Wiper Blade,Consumables,Low,Boeing Distribution Services,USA,Air,0.9,10
+THY-0011,Sealant Tube (PR-1440),Consumables,Low,Boeing Distribution Services,USA,Air,0.9,6
+THY-0012,Anti-Ice Fluid Drum,Consumables,Low,AeroParts Global,China,Sea,0.72,45
+THY-0013,Bolt Kit (AN-Series),Consumables,Low,AeroParts Global,China,Air,0.72,10
+THY-0014,Cotter Pin Pack,Consumables,Medium,Boeing Distribution Services,USA,Air,0.9,10
+THY-0015,Adhesive Film Roll,Consumables,Medium,Boeing Distribution Services,USA,Air,0.9,6
+THY-0016,Hydraulic Pump Assembly,Hydraulics,Medium,Safran Aerosystems,France,Air,0.91,7
+THY-0017,Flap Actuator,Hydraulics,High,Collins Aerospace,USA,Air,0.93,8
+THY-0018,Hydraulic Accumulator,Hydraulics,High,Liebherr Aerospace,Germany,Air,0.92,3
+THY-0019,Hydraulic Hose Assembly,Hydraulics,High,Nabtesco Aerospace,Japan,Sea,0.94,36
+THY-0020,Servo Control Valve,Hydraulics,High,Liebherr Aerospace,Germany,Sea,0.92,19
+THY-0021,Pressure Transducer,Hydraulics,High,Safran Aerosystems,France,Air,0.91,5
+THY-0022,Landing Gear Selector Valve,Hydraulics,Medium,Liebherr Aerospace,Germany,Air,0.92,4
+THY-0023,Reservoir Cap Assembly,Hydraulics,Medium,Nabtesco Aerospace,Japan,Air,0.94,8
+THY-0024,Main Wheel Tire,Landing Gear,High,Meggitt PLC,UK,Air,0.85,8
+THY-0025,Nose Wheel Tire,Landing Gear,Medium,Alp Aviation,Turkey,Road,0.86,3
+THY-0026,Brake Assembly,Landing Gear,High,Liebherr Aerospace,Germany,Air,0.92,6
+THY-0027,Carbon Brake Disc,Landing Gear,Medium,Alp Aviation,Turkey,Air,0.86,3
+THY-0028,Shock Strut Seal Kit,Landing Gear,Medium,Meggitt PLC,UK,Sea,0.85,17
+THY-0029,Torque Link Pin,Landing Gear,High,GKN Aerospace,UK,Air,0.87,7
+THY-0030,Wheel Bearing Set,Landing Gear,High,Liebherr Aerospace,Germany,Air,0.92,3
+THY-0031,Axle Nut,Landing Gear,Medium,Meggitt PLC,UK,Air,0.85,4
+THY-0032,Transponder Unit,Avionics,Medium,Thales Avionics,France,Sea,0.88,19
+THY-0033,Weather Radar Antenna,Avionics,Medium,Thales Avionics,France,Sea,0.88,20
+THY-0034,VHF Radio Unit,Avionics,Medium,Thales Avionics,France,Air,0.88,3
+THY-0035,Navigation Display,Avionics,High,Thales Avionics,France,Air,0.88,3
+THY-0036,Pitot Tube,Avionics,High,Collins Aerospace,USA,Air,0.93,7
+THY-0037,Static Port Sensor,Avionics,Medium,Thales Avionics,France,Air,0.88,6
+THY-0038,Radio Altimeter,Avionics,High,Thales Avionics,France,Air,0.88,7
+THY-0039,FDR Battery Pack,Avionics,High,Collins Aerospace,USA,Air,0.93,10
+THY-0040,Main Battery Pack,Electrical,Medium,AeroParts Global,China,Air,0.72,11
+THY-0041,AC Generator,Electrical,Medium,Collins Aerospace,USA,Air,0.93,8
+THY-0042,LED Landing Light,Electrical,Low,AeroParts Global,China,Sea,0.72,40
+THY-0043,Wiring Harness Kit,Electrical,High,Collins Aerospace,USA,Air,0.93,10
+THY-0044,Circuit Breaker (25A),Electrical,Medium,ST Engineering Aerospace,Singapore,Air,0.9,10
+THY-0045,Static Inverter,Electrical,High,ST Engineering Aerospace,Singapore,Sea,0.9,34
+THY-0046,Relay Module,Electrical,High,Collins Aerospace,USA,Air,0.93,10
+THY-0047,Position Light Assembly,Electrical,Medium,AeroParts Global,China,Air,0.72,8
+THY-0048,Igniter Plug,Engine Parts,High,GKN Aerospace,UK,Air,0.87,4
+THY-0049,Fuel Nozzle,Engine Parts,High,GKN Aerospace,UK,Air,0.87,7
+THY-0050,HPT Turbine Blade,Engine Parts,High,TEI Tusas Engine Industries,Turkey,Road,0.89,3
+THY-0051,Starter Motor,Engine Parts,Medium,TEI Tusas Engine Industries,Turkey,Road,0.89,2
+THY-0052,Bleed Air Valve,Engine Parts,High,GKN Aerospace,UK,Air,0.87,7
+THY-0053,Fan Blade Fairing,Engine Parts,High,Lufthansa Technik,Germany,Air,0.95,4
+THY-0054,Oil Pressure Sensor,Engine Parts,High,Safran Aerosystems,France,Air,0.91,7
+THY-0055,Combustor Liner Panel,Engine Parts,High,TEI Tusas Engine Industries,Turkey,Road,0.89,2
+THY-0056,Passenger Seat Belt,Cabin Interior,Medium,Dubai Aerospace Parts,UAE,Air,0.78,6
+THY-0057,Life Vest,Cabin Interior,Medium,Kale Aero,Turkey,Road,0.83,3
+THY-0058,Passenger Oxygen Mask,Cabin Interior,Medium,Dubai Aerospace Parts,UAE,Air,0.78,4
+THY-0059,Galley Latch,Cabin Interior,Low,Kale Aero,Turkey,Road,0.83,3
+THY-0060,Reading Light Assembly,Cabin Interior,Medium,AeroParts Global,China,Air,0.72,12
+THY-0061,Tray Table Arm,Cabin Interior,Low,AeroParts Global,China,Sea,0.72,44
+THY-0062,Lavatory Smoke Detector,Cabin Interior,High,Kale Aero,Turkey,Road,0.83,2
+THY-0063,Emergency Flashlight,Cabin Interior,High,Boeing Distribution Services,USA,Sea,0.9,37
