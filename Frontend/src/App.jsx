@@ -10,6 +10,16 @@ function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [allParts, setAllParts] = useState([]);
   const [predictionsReady, setPredictionsReady] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('mro-theme') || 'light');
+
+  // [data-theme=dark] is the same attribute Takeoff UI's own dark theme listens for, so this one
+  // line re-themes every Tk component too, not just our custom-styled surfaces.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('mro-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
 
   useEffect(() => {
     fetch(`${API_BASE}/api/parts`)
@@ -43,8 +53,8 @@ function App() {
   const criticalCount = allParts.filter((p) => p.status === 'Critical').length;
 
   return (
-    <div style={{ background: '#f4f5f7', minHeight: '100vh' }}>
-      <Navbar activeTab={activeTab} onTabChange={setActiveTab} criticalCount={criticalCount} />
+    <div style={{ background: 'var(--page-bg)', minHeight: '100vh' }}>
+      <Navbar activeTab={activeTab} onTabChange={setActiveTab} criticalCount={criticalCount} theme={theme} onToggleTheme={toggleTheme} />
       <main style={{ padding: '24px' }}>
         {activeTab === 'overview'
           ? <Overview allParts={allParts} predictionsReady={predictionsReady} />

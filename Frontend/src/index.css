@@ -2,12 +2,44 @@
   box-sizing: border-box;
 }
 
+/* Custom (non-Takeoff) surfaces use these — Takeoff's own components (TkCard, TkTable, TkSelect,
+   TkDrawer, TkButton...) already re-theme themselves via [data-theme=dark], since that's the same
+   attribute their own built-in dark theme listens for. One toggle drives both systems. */
+:root {
+  --page-bg: #f4f5f7;
+  --card-bg: #ffffff;
+  --card-bg-alt: #f4f5f7;
+  --text-primary: #241012;
+  --text-muted: #888888;
+  --border-subtle: #eeeeee;
+  --hover-grey: #e5e5e5;
+}
+[data-theme='dark'] {
+  --page-bg: #1c1416;
+  --card-bg: #2a2224;
+  --card-bg-alt: #332a2c;
+  --text-primary: #f2eced;
+  --text-muted: #a89a9b;
+  --border-subtle: #3d3335;
+  --hover-grey: #3a3335;
+}
+
+/* Takeoff's own dark theme swaps some component backgrounds to literal #000000 (--static-black) —
+   flat pure black looks cheap next to our warm dark-grey surfaces. Needs "html[data-theme=dark]"
+   (not just "[data-theme=dark]") for higher specificity, since Takeoff's own unconditional :root
+   rule defining --static-black loads after this file and would otherwise win the tie. */
+html[data-theme='dark'] {
+  --static-black: #2a2224;
+}
+
 body {
   margin: 0;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
-  color: #241012;
+  background: var(--page-bg);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #root {
@@ -16,10 +48,35 @@ body {
 
 h1, h2, h3 {
   font-weight: 600;
-  color: #241012;
+  color: var(--text-primary);
   margin: 0 0 4px;
 }
 
 p {
   margin: 0;
+}
+
+/* Generic hover "lift" for anything clickable — cards, rows, tabs — so the app feels responsive
+   instead of static. Kept as a class (not inline styles) since inline style objects can't express
+   :hover in React. */
+.hoverable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.hoverable:hover {
+  background-color: var(--hover-grey);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.hoverable:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.nav-tab {
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.nav-tab:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
