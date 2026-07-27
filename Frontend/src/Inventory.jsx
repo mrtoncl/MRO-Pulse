@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { TkTable, TkSelect } from '@takeoff-ui/react';
 import { statusVariant } from './statusUtils';
-import PartDrawer from './PartDrawer';
 
-function Inventory({ allParts, predictionsReady }) {
+function Inventory({ allParts, predictionsReady, onSelectPart }) {
     const [searchText, setSearchText] = useState('');
     const [categoryFilter, setCategoryFilter] = useState(null);
     const [criticalityFilter, setCriticalityFilter] = useState(null);
     const [statusFilter, setStatusFilter] = useState(null);
-    const [selectedId, setSelectedId] = useState(null);
-
-    // Looked up from allParts (not stored as its own copy) so that once predictions finish loading
-    // in the background, an already-open drawer picks up the real numbers automatically.
-    const selectedPart = selectedId ? allParts.find((p) => p.productId === selectedId) : null;
 
     const categories = [...new Set(allParts.map((p) => p.category))];
     // Fixed importance order (not alphabetical — alphabetically "Low" sorts before "Medium").
@@ -59,10 +53,8 @@ function Inventory({ allParts, predictionsReady }) {
                 table's own white background — barely visible. Overriding it here (scoped to just this
                 table, via the CSS custom property, which does cross the shadow-DOM boundary) makes hover
                 actually noticeable, plus an explicit pointer cursor since data rows don't set one by default. */}
-            <TkTable columns={columns} data={filteredParts} onTkRowClick={(e) => setSelectedId(e.detail.productId)}
+            <TkTable columns={columns} data={filteredParts} onTkRowClick={(e) => onSelectPart(e.detail.productId)}
                 style={{ cursor: 'pointer', '--background-lightest': 'var(--hover-grey)' }} />
-
-            <PartDrawer part={selectedPart} onClose={() => setSelectedId(null)} />
         </div>
     );
 }

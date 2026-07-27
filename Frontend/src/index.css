@@ -80,3 +80,28 @@ p {
   opacity: 0.85;
   transform: translateY(-1px);
 }
+
+/* Plain background-only hover for dropdown-style menu items (e.g. "Log Out") — these sit on a
+   light card surface (var(--card-bg)), so the lift/shadow from .hoverable would look out of
+   place; a flat highlight matching table-row hover reads better here. */
+.menu-item {
+  background-color: transparent;
+  transition: background-color 0.15s ease;
+}
+.menu-item:hover {
+  background-color: var(--hover-grey);
+}
+
+/* Takeoff's TkDrawer only supports a solid-color overlay (no blur option), so to get the
+   "background behind the drawer is blurred" look, we blur our own page content directly instead —
+   the drawer itself lives outside this wrapper so it stays perfectly sharp on top. */
+.page-content {
+  transition: filter 0.2s ease;
+}
+.page-content.blurred {
+  /* brightness (a relative darkening) instead of Takeoff's own overlay — its overlay flips to a
+     semi-transparent WHITE in dark mode (its own theme design), which washed our warm dark colors
+     out to grey. Darkening our own colors directly keeps the same hue in both themes. */
+  filter: blur(2px) brightness(0.92);
+  pointer-events: none;
+}

@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { TkCard, TkBadge, TkButton, TkChart } from '@takeoff-ui/react';
 import { statusVariant } from './statusUtils';
-import PartDrawer from './PartDrawer';
 
 // Chart.js doesn't know about our CSS theme variables (it paints on a canvas), so without this its
 // default axis text/gridlines are near-black — invisible on a dark card. A mid-grey reads fine on
@@ -25,10 +23,7 @@ function KpiCard({ label, value, subtitle, color }) {
   );
 }
 
-function Overview({ allParts, predictionsReady }) {
-  const [selectedId, setSelectedId] = useState(null);
-  const selectedPart = selectedId ? allParts.find((p) => p.productId === selectedId) : null;
-
+function Overview({ allParts, predictionsReady, onSelectPart }) {
   const summary = {
     total: allParts.length,
     healthy: allParts.filter((p) => p.status === 'Healthy').length,
@@ -74,7 +69,7 @@ function Overview({ allParts, predictionsReady }) {
               const isCritical = part.status === 'Critical';
               const borderColor = isCritical ? '#c8102e' : '#c8860a';
               return (
-                <div key={part.productId} className="hoverable" onClick={() => setSelectedId(part.productId)}
+                <div key={part.productId} className="hoverable" onClick={() => onSelectPart(part.productId)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 10px', borderBottom: '1px solid var(--border-subtle)', borderLeft: `3px solid ${borderColor}`, borderRadius: '4px' }}>
                   <div>
                     <span style={{ fontSize: '12px', color: 'var(--text-muted)', marginRight: '8px' }}>{part.productId}</span>
@@ -82,7 +77,6 @@ function Overview({ allParts, predictionsReady }) {
                     <p style={{ fontWeight: 'bold', margin: '4px 0' }}>{part.productName}</p>
                     <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Runs out in ~{daysLabel(part)} days. {isCritical ? 'Order today.' : 'Order soon.'}</p>
                   </div>
-                  <TkButton label={isCritical ? 'Order Now' : 'Order Soon'} variant={statusVariant(part.status)} />
                 </div>
               );
             })
@@ -112,8 +106,6 @@ function Overview({ allParts, predictionsReady }) {
           </TkCard>
         </div>
       </div>
-
-      <PartDrawer part={selectedPart} onClose={() => setSelectedId(null)} />
     </div>
   );
 }

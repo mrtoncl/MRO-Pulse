@@ -1,5 +1,6 @@
 import { TkDrawer, TkCard, TkAlert, TkBadge, TkButton, TkChart } from '@takeoff-ui/react';
 import { statusVariant } from './statusUtils';
+import { useState, useEffect } from 'react';
 
 const variantColor = { Critical: '#c8102e', 'Low Stock': '#c8860a', Healthy: '#1a7f4e' };
 const actionLabel = { ORDER_NOW: 'ORDER NOW', ORDER_SOON: 'ORDER SOON', NO_ACTION: 'NO ACTION NEEDED' };
@@ -124,11 +125,16 @@ function UsageTrendChart({ part }) {
 
 // Shared between Overview (Urgent Alerts) and Inventory (table rows) so clicking a part looks and
 // behaves identically no matter which page you clicked it from.
-function PartDrawer({ part, onClose }) {
+function PartDrawer({ part, onClose, onPlaceOrder }) {
+    const [ordered, setOrdered] = useState(false);
     const hasPrediction = Boolean(part?.stockPrediction && part?.leadTimePrediction);
 
+    useEffect(() => {
+        setOrdered(false);
+    }, [part?.productId]);
+
     return (
-        <TkDrawer headerType="light" open={part !== null} onTkDrawerClose={onClose}>
+        <TkDrawer headerType="light" open={part !== null} onTkDrawerClose={onClose} hideBackdrop>
             <div slot="content">
                 {part && (
                     <div>
@@ -190,10 +196,12 @@ function PartDrawer({ part, onClose }) {
                         </TkCard>
 
                         <TkButton
-                            label={hasPrediction ? actionLabel[part.action] : 'Loading...'}
-                            variant={statusVariant(part.status)}
+                            label={ordered ? 'Order Placed ✓' : (hasPrediction ? actionLabel[part.action] : 'Loading...')}
+                            variant={ordered ? 'success' : statusVariant(part.status)}
+                            disabled={ordered || !hasPrediction}
                             fullWidth
                             style={{ marginTop: '16px' }}
+                            onTkClick={async () => { await onPlaceOrder(part); setOrdered(true); }}
                         />
                     </div>
                 )}

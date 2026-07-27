@@ -3,6 +3,10 @@ import Navbar from './Navbar';
 import Overview from './Overview';
 import Inventory from './Inventory';
 import { getPartStatus, classifyFromGap } from './statusUtils';
+import AuthScreen from './AuthScreen';
+import Users from './Users';
+import OrderHistory from './OrderHistory';
+import PartDrawer from './PartDrawer';
 
 const API_BASE = 'http://localhost:5005';
 
@@ -11,6 +15,9 @@ function App() {
   const [allParts, setAllParts] = useState([]);
   const [predictionsReady, setPredictionsReady] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('mro-theme') || 'light');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [selectedPartId, setSelectedPartId] = useState(null);
+  const selectedPart = selectedPartId ? allParts.find((p) => p.productId === selectedPartId) : null;
 
   // [data-theme=dark] is the same attribute Takeoff UI's own dark theme listens for, so this one
   // line re-themes every Tk component too, not just our custom-styled surfaces.
@@ -20,6 +27,18 @@ function App() {
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
+
+  // Reset the active tab on every login/logout — otherwise a user could log out while on a
+  // restricted tab like "users", and an unauthorized user logging in next would land there too.
+  useEffect(() => {
+    setActiveTab('overview');
+  }, [currentUser]);
+
+  // Close any open drawer when switching tabs — otherwise you could land on "Users" with the
+  // previous tab's drawer (and the resulting blur) still showing.
+  useEffect(() => {
+    setSelectedPartId(null);
+  }, [activeTab]);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/parts`)
@@ -50,16 +69,38 @@ function App() {
     setPredictionsReady(true);
   }
 
+  async function handlePlaceOrder(part) {
+  await fetch(`${API_BASE}/api/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      productId: part.productId,
+      orderedBy: currentUser.id,
+      predictedStockoutDay: part.stockPrediction?.median_day ?? part.daysRemaining,
+      predictedLeadTimeDays: part.leadTimePrediction?.lead_time ?? 0,
+    }),
+  });
+}
+
   const criticalCount = allParts.filter((p) => p.status === 'Critical').length;
+
+  if (!currentUser) {
+    return <AuthScreen onLoginSuccess={setCurrentUser} />;
+  }
 
   return (
     <div style={{ background: 'var(--page-bg)', minHeight: '100vh' }}>
-      <Navbar activeTab={activeTab} onTabChange={setActiveTab} criticalCount={criticalCount} theme={theme} onToggleTheme={toggleTheme} />
-      <main style={{ padding: '24px' }}>
-        {activeTab === 'overview'
-          ? <Overview allParts={allParts} predictionsReady={predictionsReady} />
-          : <Inventory allParts={allParts} predictionsReady={predictionsReady} />}
-      </main>
+      <div className={`page-content${selectedPart ? ' blurred' : ''}`}>
+        <Navbar activeTab={activeTab} onTabChange={setActiveTab} theme={theme} onToggleTheme={toggleTheme} user={currentUser} onLogout={() => setCurrentUser(null)} />
+        <main style={{ padding: '24px' }}>
+          {activeTab === 'overview' && <Overview allParts={allParts} predictionsReady={predictionsReady} onSelectPart={setSelectedPartId} />}
+          {activeTab === 'inventory' && <Inventory allParts={allParts} predictionsReady={predictionsReady} onSelectPart={setSelectedPartId} />}
+          {activeTab === 'users' && <Users currentUser={currentUser} />}
+          {activeTab === 'history' && <OrderHistory />}
+        </main>
+      </div>
+
+      <PartDrawer part={selectedPart} onClose={() => setSelectedPartId(null)} onPlaceOrder={handlePlaceOrder} />
     </div>
   );
 }
