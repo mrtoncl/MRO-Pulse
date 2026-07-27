@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "73QSjADO7Ks=",
+  "dgSpecHash": "KOdny16XDBI=",
   "success": true,
-  "projectFilePath": "/Users/muratemir/Desktop/dotnet-learn/MroBackend/MroBackend.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
+  "expectedPackageFiles": [
+    "/Users/muratemir/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
+    "/Users/muratemir/.nuget/packages/dapper/2.1.79/dapper.2.1.79.nupkg.sha512",
+    "/Users/muratemir/.nuget/packages/npgsql/10.0.3/npgsql.10.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

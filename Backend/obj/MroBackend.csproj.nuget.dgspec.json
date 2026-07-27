@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/muratemir/Desktop/dotnet-learn/MroBackend/MroBackend.csproj": {}
+    "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj": {}
   },
   "projects": {
-    "/Users/muratemir/Desktop/dotnet-learn/MroBackend/MroBackend.csproj": {
+    "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/muratemir/Desktop/dotnet-learn/MroBackend/MroBackend.csproj",
+        "projectUniqueName": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
         "projectName": "MroBackend",
-        "projectPath": "/Users/muratemir/Desktop/dotnet-learn/MroBackend/MroBackend.csproj",
+        "projectPath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
         "packagesPath": "/Users/muratemir/.nuget/packages/",
-        "outputPath": "/Users/muratemir/Desktop/dotnet-learn/MroBackend/obj/",
+        "outputPath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/muratemir/.nuget/NuGet/NuGet.Config"
@@ -45,6 +45,20 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.79, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[10.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
