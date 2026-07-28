@@ -75,6 +75,11 @@ app.MapGet("/api/orders/{id}/prediction", async (string id, IPartRepository repo
 
 app.MapPost("/api/login", async (LoginRequest request) =>
 {
+    if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+    {
+        return Results.Unauthorized();
+    }
+
     await using var connection = new NpgsqlConnection(connectionString);
 
     var user = await connection.QuerySingleOrDefaultAsync<UserRecord>(
@@ -109,6 +114,15 @@ app.MapPost("/api/orders", async (OrderRequest request) =>
 
 app.MapPost("/api/register", async (RegisterRequest request) =>
 {
+    if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.FullName))
+    {
+        return Results.BadRequest(new { message = "Username and full name are required." });
+    }
+    if (string.IsNullOrEmpty(request.Password) || request.Password.Length < 4)
+    {
+        return Results.BadRequest(new { message = "Password must be at least 4 characters." });
+    }
+
     await using var connection = new NpgsqlConnection(connectionString);
 
     var existing = await connection.QuerySingleOrDefaultAsync<int?>(
@@ -206,7 +220,7 @@ app.MapPost("/api/forgot-password", async (ChangePasswordRequest request) =>
 
     if (user is null || !BCrypt.Net.BCrypt.Verify(request.OldPassword, user.PasswordHash))
     {
-        return Results.BadRequest(new { message = "Username or current password is incorrect." });
+        return Results.BadRequest(new { message = "Current password is incorrect." });
     }
 
     var newHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);

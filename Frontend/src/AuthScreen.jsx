@@ -46,6 +46,12 @@ function AuthScreen({ onLoginSuccess }) {
   async function handleLogin(e) {
     e.preventDefault();
     setLoginError('');
+
+    if (!loginUsername.trim() || !loginPassword.trim()) {
+      setLoginError('Please enter your username and password.');
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
@@ -67,6 +73,16 @@ function AuthScreen({ onLoginSuccess }) {
     e.preventDefault();
     setSignupError('');
     setSignupSuccess('');
+
+    if (!signupFullName.trim() || !signupUsername.trim()) {
+      setSignupError('Full name and username are required.');
+      return;
+    }
+    if (signupPassword.length < 4) {
+      setSignupError('Password must be at least 4 characters.');
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
@@ -127,8 +143,8 @@ function AuthScreen({ onLoginSuccess }) {
 
         {view === 'login' && (
           <form onSubmit={handleLogin}>
-            <input placeholder="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} style={inputStyle} />
-            <input type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} style={inputStyle} />
+            <input placeholder="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} style={inputStyle} required />
+            <input type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} style={inputStyle} required />
             {loginError && <p style={{ color: '#c8102e', fontSize: '13px', marginBottom: '12px' }}>{loginError}</p>}
             <button type="submit" style={submitStyle}>Log In</button>
             <p style={{ fontSize: '13px', textAlign: 'center', marginTop: '14px' }}>
@@ -139,9 +155,9 @@ function AuthScreen({ onLoginSuccess }) {
 
         {view === 'signup' && (
           <form onSubmit={handleSignup}>
-            <input placeholder="Full Name" value={signupFullName} onChange={(e) => setSignupFullName(e.target.value)} style={inputStyle} />
-            <input placeholder="Username" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} style={inputStyle} />
-            <input type="password" placeholder="Password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} style={inputStyle} />
+            <input placeholder="Full Name" value={signupFullName} onChange={(e) => setSignupFullName(e.target.value)} style={inputStyle} required />
+            <input placeholder="Username" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} style={inputStyle} required />
+            <input type="password" placeholder="Password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} style={inputStyle} required minLength={4} />
             {signupError && <p style={{ color: '#c8102e', fontSize: '13px', marginBottom: '12px' }}>{signupError}</p>}
             {signupSuccess && <p style={{ color: '#1a7f4e', fontSize: '13px', marginBottom: '12px' }}>{signupSuccess}</p>}
             <button type="submit" style={submitStyle}>Sign Up</button>

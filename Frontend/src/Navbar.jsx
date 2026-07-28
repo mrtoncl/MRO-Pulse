@@ -90,7 +90,12 @@ function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout, 
                         <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#7a2a2e', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', flexShrink: 0 }}>
                             {user?.fullName?.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
-                        <span style={{ color: '#fff', fontSize: '13px' }}>{user?.fullName}</span>
+                        <span
+                            title={user?.fullName}
+                            style={{ color: '#fff', fontSize: '13px', maxWidth: '140px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        >
+                            {user?.fullName}
+                        </span>
                         <span style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                             {user?.role}
                         </span>

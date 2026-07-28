@@ -59,7 +59,7 @@ function OrderHistory() {
               {filteredOrders.map((o) => (
                 <tr key={o.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                   <td style={{ padding: '10px', color: 'var(--text-primary)', fontWeight: 'bold' }}>{o.productId}</td>
-                  <td style={{ padding: '10px', color: 'var(--text-primary)' }}>{o.orderedByName}</td>
+                  <td style={{ padding: '10px', color: 'var(--text-primary)', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={o.orderedByName}>{o.orderedByName}</td>
                   <td style={{ padding: '10px', color: 'var(--text-muted)' }}>{formatDate(o.orderedAt)}</td>
                   <td style={{ padding: '10px', color: 'var(--text-primary)' }}>~{Math.round(o.predictedStockoutDay)} days</td>
                   <td style={{ padding: '10px', color: 'var(--text-primary)' }}>~{Math.round(o.predictedLeadTimeDays)} days</td>

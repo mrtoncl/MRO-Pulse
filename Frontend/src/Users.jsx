@@ -77,8 +77,8 @@ function Users({ currentUser }) {
             <tbody>
               {users.map((u) => (
                 <tr key={u.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <td style={{ padding: '10px', color: 'var(--text-primary)' }}>{u.username}</td>
-                  <td style={{ padding: '10px', color: 'var(--text-primary)' }}>{u.fullName}</td>
+                  <td style={{ padding: '10px', color: 'var(--text-primary)', maxWidth: '160px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={u.username}>{u.username}</td>
+                  <td style={{ padding: '10px', color: 'var(--text-primary)', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={u.fullName}>{u.fullName}</td>
                   <td style={{ padding: '10px', width: '160px' }}>
                     <select
                       value={u.roleName}
