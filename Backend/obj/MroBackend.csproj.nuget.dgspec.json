@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj": {}
+    "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/MroBackend.csproj": {}
   },
   "projects": {
-    "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj": {
+    "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/MroBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
+        "projectUniqueName": "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/MroBackend.csproj",
         "projectName": "MroBackend",
-        "projectPath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
+        "projectPath": "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/MroBackend.csproj",
         "packagesPath": "/Users/muratemir/.nuget/packages/",
-        "outputPath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/obj/",
+        "outputPath": "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/muratemir/.nuget/NuGet/NuGet.Config"

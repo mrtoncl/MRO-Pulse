@@ -6,6 +6,7 @@ import { getPartStatus, classifyFromGap } from './statusUtils';
 import AuthScreen from './AuthScreen';
 import Users from './Users';
 import OrderHistory from './OrderHistory';
+import ChangePassword from './ChangePassword';
 import PartDrawer from './PartDrawer';
 
 const API_BASE = 'http://localhost:5005';
@@ -91,12 +92,13 @@ function App() {
   return (
     <div style={{ background: 'var(--page-bg)', minHeight: '100vh' }}>
       <div className={`page-content${selectedPart ? ' blurred' : ''}`}>
-        <Navbar activeTab={activeTab} onTabChange={setActiveTab} theme={theme} onToggleTheme={toggleTheme} user={currentUser} onLogout={() => setCurrentUser(null)} />
+        <Navbar activeTab={activeTab} onTabChange={setActiveTab} theme={theme} onToggleTheme={toggleTheme} user={currentUser} onLogout={() => setCurrentUser(null)} onChangePassword={() => setActiveTab('change-password')} />
         <main style={{ padding: '24px' }}>
           {activeTab === 'overview' && <Overview allParts={allParts} predictionsReady={predictionsReady} onSelectPart={setSelectedPartId} />}
           {activeTab === 'inventory' && <Inventory allParts={allParts} predictionsReady={predictionsReady} onSelectPart={setSelectedPartId} />}
           {activeTab === 'users' && <Users currentUser={currentUser} />}
           {activeTab === 'history' && <OrderHistory />}
+          {activeTab === 'change-password' && <ChangePassword currentUser={currentUser} />}
         </main>
       </div>
 

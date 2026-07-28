@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KOdny16XDBI=",
+  "dgSpecHash": "2BqFLYDwv3Q=",
   "success": true,
-  "projectFilePath": "/Users/muratemir/Desktop/MRO-Pulse/MroBackend/MroBackend.csproj",
+  "projectFilePath": "/Users/muratemir/Documents/GitHub/MRO-Pulse/Backend/MroBackend.csproj",
   "expectedPackageFiles": [
     "/Users/muratemir/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
     "/Users/muratemir/.nuget/packages/dapper/2.1.79/dapper.2.1.79.nupkg.sha512",

@@ -26,7 +26,7 @@ function MoonIcon() {
     );
 }
 
-function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout }) {
+function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout, onChangePassword }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -48,7 +48,7 @@ function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout }
 
     const tabStyle = (tab) => ({
         background: activeTab === tab ? '#fff' : 'transparent',
-        color: activeTab === tab ? '#3a1013' : '#b39a9c',
+        color: activeTab === tab ? '#3a1013' : 'rgba(255,255,255,0.85)',
         border: 'none',
         padding: '6px 14px',
         borderRadius: '4px',
@@ -58,11 +58,11 @@ function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout }
     });
 
     return (
-        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', background: '#3a1013', borderBottom: '3px solid #c8102e' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', background: '#c8102e', borderBottom: '3px solid #3a1013' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '18px' }}>MRO-Pulse</span>
-                <span style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.2)' }} />
-                <span style={{ color: '#b39a9c', fontSize: '13px' }}>MRO INVENTORY</span>
+                <img src="/tt-logo.png" alt="Turkish Technology" style={{ height: '26px', width: 'auto' }} />
+                <span style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.3)' }} />
+                <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '15px' }}>MRO-Pulse</span>
                 <button className="nav-tab" onClick={() => onTabChange('overview')} style={tabStyle('overview')}>OVERVIEW</button>
                 <button className="nav-tab" onClick={() => onTabChange('inventory')} style={tabStyle('inventory')}>INVENTORY</button>
                 <button className="nav-tab" onClick={() => onTabChange('history')} style={tabStyle('history')}>ORDER HISTORY</button>
@@ -80,7 +80,7 @@ function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout }
                 >
                     {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
                 </button>
-                <span style={{ color: '#b39a9c', fontSize: '13px' }}>{dateLabel} · {timeLabel}</span>
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px' }}>{dateLabel} · {timeLabel}</span>
                 <div style={{ position: 'relative' }} ref={menuRef}>
                     <div
                         className = "nav-tab"
@@ -96,7 +96,14 @@ function Navbar({ activeTab, onTabChange, theme, onToggleTheme, user, onLogout }
                         </span>
                     </div>
                     {menuOpen && (
-                        <div style={{ position: 'absolute', top: '40px', right: 0, background: 'var(--card-bg)', borderRadius: '6px', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', overflow: 'hidden', minWidth: '140px', zIndex: 10 }}>
+                        <div style={{ position: 'absolute', top: '40px', right: 0, background: 'var(--card-bg)', borderRadius: '6px', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', overflow: 'hidden', minWidth: '160px', zIndex: 10 }}>
+                            <button
+                                className="menu-item"
+                                onClick={() => { setMenuOpen(false); onChangePassword(); }}
+                                style={{ width: '100%', padding: '10px 14px', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px', color: 'var(--text-primary)' }}
+                            >
+                                Change Password
+                            </button>
                             <button
                                 className="menu-item"
                                 onClick={() => { setMenuOpen(false); onLogout(); }}

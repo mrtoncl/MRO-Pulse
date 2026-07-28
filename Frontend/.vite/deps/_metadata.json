@@ -1,0 +1,58 @@
+{
+  "hash": "48df9c8a",
+  "configHash": "03c6764d",
+  "lockfileHash": "7983ef10",
+  "browserHash": "6b0dc5aa",
+  "optimized": {
+    "@takeoff-ui/react": {
+      "src": "../../node_modules/@takeoff-ui/react/dist/index.js",
+      "file": "@takeoff-ui_react.js",
+      "fileHash": "668218b6",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "ddd11d85",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "1b564234",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "d614670b",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "p-BRnozlj--BtVaODSG": {
+      "file": "p-BRnozlj--BtVaODSG.js",
+      "isDynamicEntry": true
+    },
+    "p-Cu2uUvd2-DPzJzTnH": {
+      "file": "p-Cu2uUvd2-DPzJzTnH.js",
+      "isDynamicEntry": true
+    },
+    "p-D7YaJBkB-CtdMhJOO": {
+      "file": "p-D7YaJBkB-CtdMhJOO.js",
+      "isDynamicEntry": false
+    },
+    "p-l8FJR4LL-DDJYchXG": {
+      "file": "p-l8FJR4LL-DDJYchXG.js",
+      "isDynamicEntry": true
+    },
+    "rolldown-runtime-FDOR9p9I": {
+      "file": "rolldown-runtime-FDOR9p9I.js",
+      "isDynamicEntry": false
+    },
+    "tk-table-DxKN4vPh": {
+      "file": "tk-table-DxKN4vPh.js",
+      "isDynamicEntry": false
+    }
+  }
+}
