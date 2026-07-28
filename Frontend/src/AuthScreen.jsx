@@ -15,7 +15,7 @@ const inputStyle = {
 const submitStyle = {
   width: '100%',
   padding: '10px',
-  background: '#3a1013',
+  background: '#c8102e',
   color: '#fff',
   border: 'none',
   borderRadius: '4px',
@@ -99,7 +99,7 @@ function AuthScreen({ onLoginSuccess }) {
   const tabStyle = (tab) => ({
     flex: 1,
     padding: '10px',
-    background: view === tab ? '#3a1013' : 'transparent',
+    background: view === tab ? '#c8102e' : 'transparent',
     color: view === tab ? '#fff' : 'var(--text-muted)',
     border: 'none',
     borderRadius: '6px',

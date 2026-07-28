@@ -7,37 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = "Host=localhost;Database=postgres;Username=postgres;Password=";
 
-await using var connection = new NpgsqlConnection(connectionString);
-await connection.OpenAsync();
-
-await using var command = new NpgsqlCommand("SELECT 1", connection);
-var result = await command.ExecuteScalarAsync();
-
-Console.WriteLine($"Postgres bağlantısı test sonucu: {result}");
-
-var roleNames = await connection.QueryAsync<string>("SELECT name FROM roles");
-foreach (var name in roleNames)
-{
-    Console.WriteLine($"Rol: {name}");
-}
-
-await connection.ExecuteAsync(
-    "INSERT INTO roles (name) VALUES (@Name)",
-    new { Name = "Test Rol" }
-);
-
-var hash = BCrypt.Net.BCrypt.HashPassword("reynaz");
-Console.WriteLine(hash);
-
-var isCorrect = BCrypt.Net.BCrypt.Verify("reynaz", hash);
-Console.WriteLine($"Şifre doğru mu: {isCorrect}");
-
-var isWrong = BCrypt.Net.BCrypt.Verify("yanlis_sifre", hash);
-Console.WriteLine($"Yanlış şifre doğru mu: {isWrong}");
-
-
-
-
 builder.Services.AddCors();
 
 builder.Services.AddHttpClient("ml", c => c.BaseAddress = new Uri("http://127.0.0.1:8000"));
@@ -249,6 +218,31 @@ app.MapPost("/api/forgot-password", async (ChangePasswordRequest request) =>
     return Results.Ok(new { message = "Password updated successfully." });
 });
 
+app.MapDelete("/api/users/{id}", async (int id, int actingUserId) =>
+{
+    await using var connection = new NpgsqlConnection(connectionString);
+
+    var actingRole = await connection.QuerySingleOrDefaultAsync<string>(
+        @"SELECT r.name FROM users u JOIN roles r ON u.role_id = r.id WHERE u.id = @ActingUserId",
+        new { ActingUserId = actingUserId }
+    );
+    if (actingRole != "Admin")
+    {
+        return Results.BadRequest(new { message = "This action requires Admin permission." });
+    }
+
+    if (actingUserId == id)
+    {
+        return Results.BadRequest(new { message = "You cannot delete your own account." });
+    }
+
+    // Delete the user's orders first, otherwise the FK constraint on orders.ordered_by blocks the delete.
+    await connection.ExecuteAsync("DELETE FROM orders WHERE ordered_by = @Id", new { Id = id });
+    await connection.ExecuteAsync("DELETE FROM users WHERE id = @Id", new { Id = id });
+
+    return Results.Ok(new { message = "User deleted." });
+});
+
 app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.Run();
@@ -343,8 +337,6 @@ record ChangePasswordRequest(
     string OldPassword, 
     string NewPassword
 );
-
-
 
 interface IPartRepository
 {
