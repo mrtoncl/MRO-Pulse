@@ -89,4 +89,4 @@ npm run dev
 
 ## Developer
 
-**Murat Emir Öncül** — Data & AI Intern, Turkish Technology
+**Murat Emir Öncül** — Maintenance Support Solutions Intern, Turkish Technology
