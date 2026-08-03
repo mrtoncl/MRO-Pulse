@@ -1,3 +1,4 @@
+
 # MRO-Pulse
 
 An end-to-end inventory management dashboard for MRO (Maintenance, Repair & Overhaul) operations, combining AI-powered predictions to manage part stock levels and supply processes.
@@ -6,7 +7,8 @@ It uses two separate machine learning models: one predicts when a part will run 
 
 > This project was built as part of an internship at Turkish Technology, for demonstration purposes, using synthetic data. It has no connection to real company data.
 
-<!-- Add a screenshot of the Overview screen here -->
+
+
 
 ## Features
 
@@ -18,7 +20,8 @@ It uses two separate machine learning models: one predicts when a part will run 
 - **Admin Panel:** Manage user roles and delete users
 - **Light/Dark Theme** support
 
-<!-- Add a screenshot of the part detail panel with ML predictions here -->
+
+<img width="1470" height="779" alt="Screenshot 2026-08-03 at 09 32 31" src="https://github.com/user-attachments/assets/48bfc2c5-7911-4789-93da-99a4215d9d4f" /><img width="1470" height="780" alt="Screenshot 2026-08-03 at 09 32 53" src="https://github.com/user-attachments/assets/30f87c74-168b-429a-8c35-daacaafb375a" />
 
 ## Technical Architecture
 
@@ -54,7 +57,7 @@ MRO-Pulse/
 └── Mock_Data/        → Synthetic datasets used for model training
 ```
 
-<!-- Add a screenshot of the Inventory or Order History screen here -->
+  <img width="1470" height="783" alt="Screenshot 2026-08-03 at 09 33 46" src="https://github.com/user-attachments/assets/3bf4022c-d896-432b-9865-5bdec2d42c41" />
 
 ## Setup & Running
 
